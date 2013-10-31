@@ -1,11 +1,12 @@
 require_relative 'spec_helper'
 
 describe "Actor" do
-  
-  before do
-    
+  let!(:actor) {Actor.create(:first_name => "Mandy", :last_name => "Patinkin")}
+  before(:each) do
+    @ren = Character.create(:name => "Ren")
+    @stimpy = Character.create(:name => "Stimpy")
+    # @actor = Actor.create(:first_name => "Mandy", :last_name => "Patinkin")
   end
-
 
   #TODO: implement the tests as described in the it blocks,
   #      and implement the class and migrations required to pass them
@@ -13,7 +14,6 @@ describe "Actor" do
   # HINTS: look at show_spec.rb and network_spec.rb and character_spec.rb for guidance
 
   it "has a first and last name" do
-    actor = Actor.find_or_create_by(:first_name => "Mandy", :last_name => "Patinkin")
 
     expect(Actor.find_by(:first_name => "Mandy")).to eq(actor)
     expect(Actor.find_by(:last_name => "Patinkin")).to eq(actor)
@@ -22,15 +22,11 @@ describe "Actor" do
 
   it "has associated characters in an array" do
     actor = Actor.find_or_create_by(:first_name => "Mandy", :last_name => "Patinkin")
-
-    ren = Character.create(:name => "Ren")
-    stimpy = Character.create(:name => "Stimpy")
-
-    actor.characters << [ren, stimpy]
+    actor.characters << [@ren, @stimpy]
 
     expect(Actor.find_by(:first_name => "Mandy", :last_name => "Patinkin").characters.count).to eq(2)
-    expect(Actor.find_by(:first_name => "Mandy", :last_name => "Patinkin").characters).to include(ren)
-    expect(Actor.find_by(:first_name => "Mandy").characters).to include(stimpy)
+    expect(Actor.find_by(:first_name => "Mandy", :last_name => "Patinkin").characters).to include(@ren)
+    expect(Actor.find_by(:first_name => "Mandy").characters).to include(@stimpy)
 
 
     # Hint: think about what migration you'll need to write so that an actor can have many characters.
@@ -73,13 +69,12 @@ describe "Actor" do
 
   it "can list all of its shows and characters" do
     actor = Actor.find_or_create_by(:first_name => "Hank", :last_name => "Azaria")
-    ren = Character.find_by(:name => "Ren")
-    stimpy = Character.find_by(:name => "Stimpy")
-    ren.show = Show.find_or_create_by(:name => "Ren and Stimpy")
-    stimpy.show = Show.find_by(:name => "Ren and Stimpy")
+    @ren = Character.find_by(:name => "Ren")
+    @stimpy = Character.find_by(:name => "Stimpy")
+    @ren.show = Show.find_or_create_by(:name => "Ren and Stimpy")
+    @stimpy.show = Show.find_by(:name => "Ren and Stimpy")
 
-    actor.characters << [ren, stimpy]
-    binding.pry
+    actor.characters << [@ren, @stimpy]
     expect(actor.list_roles).to eq("Ren - Ren and Stimpy\nStimpy - Ren and Stimpy")
 
     # pending "create a list_roles method"
