@@ -1,12 +1,6 @@
 require_relative 'spec_helper'
 
 describe "Actor" do
-  
-  before do
-    
-  end
-
-
   #TODO: implement the tests as described in the it blocks,
   #      and implement the class and migrations required to pass them
 
@@ -79,7 +73,6 @@ describe "Actor" do
     stimpy.show = Show.find_by(:name => "Ren and Stimpy")
 
     actor.characters << [ren, stimpy]
-    binding.pry
     expect(actor.list_roles).to eq("Ren - Ren and Stimpy\nStimpy - Ren and Stimpy")
 
     # pending "create a list_roles method"
