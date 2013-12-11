@@ -8,11 +8,6 @@ describe "Actor" do
     # @actor = Actor.create(:first_name => "Mandy", :last_name => "Patinkin")
   end
 
-  #TODO: implement the tests as described in the it blocks,
-  #      and implement the class and migrations required to pass them
-
-  # HINTS: look at show_spec.rb and network_spec.rb and character_spec.rb for guidance
-
   it "has a first and last name" do
 
     expect(Actor.find_by(:first_name => "Mandy")).to eq(actor)
@@ -28,10 +23,6 @@ describe "Actor" do
     expect(Actor.find_by(:first_name => "Mandy", :last_name => "Patinkin").characters).to include(@ren)
     expect(Actor.find_by(:first_name => "Mandy").characters).to include(@stimpy)
 
-
-    # Hint: think about what migration you'll need to write so that an actor can have many characters.
-    # Where will the association foreign key go?
-    # pending "set up the appropriate association for characters and add characters through the array push"
   end
 
   it "can build its associated characters" do
@@ -58,7 +49,6 @@ describe "Actor" do
     actor.characters.build(:name => "Friendo", :show => Show.create(:name => "No Country For Old Men"))
     actor.save
 
-    # pending "in one line, build a show and a character for this actor"
   end
 
   it "can list its full name" do
@@ -77,8 +67,5 @@ describe "Actor" do
     actor.characters << [@ren, @stimpy]
     expect(actor.list_roles).to eq("Ren - Ren and Stimpy\nStimpy - Ren and Stimpy")
 
-    # pending "create a list_roles method"
-    # TODO: build a method on actor that will return a string in the form of
-    # character name - show name\n and test the results
   end
 end
